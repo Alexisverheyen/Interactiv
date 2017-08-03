@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block head_title %}MuyPicky{% endblock head_title %}</title>
+    {% include 'snippets/css.html'%}
+</head>
+<body>
+{#    <H1>Hello world!</H1>#}
+{#    <p>This in a training website</p>#}
+{#    <p>#}
+{#        {% if bool_item%}#}
+{#        Random number is {{ num }}#}
+{#        {% endif %}#}
+{#    </p>#}
+{#    <p>#}
+{#        {% for some_item in some_list %}#}
+{#                {% if some_item|divisibleby:"2" %}#}
+{#                    Even number ->#}
+{#                    {% endif %}#}
+{#            {{ some_item }} <br/>#}
+{#        {% endfor %}#}
+{#    <p/>#}
+{% include 'snippets/nav.html'%}
+<div class="'container">
+    {% block content %}
+    {% endblock content %}
+</div>
+{% include 'snippets/js.html'%}
+</body>
+</html>
