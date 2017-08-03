@@ -1,52 +1,45 @@
-import random
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.http import HttpResponse
+from .models import InteractivLocation
+from django.db.models import Q
 
-# Create your views here.
-
-#fonction based view
-#
-# def home(request):
-#     num = random.randint(0, 100000000)
-#     some_list = [num, random.randint(0, 1000000000), random.randint(0, 100000000)]
-#     context = {
-#         "bool_item" : True,
-#         "num" : num,
-#         "some_list" : some_list
+# def interactiv_listview(request):
+#     template_name='interactiv/interactiv_list.html'
+#     queryset = InteractivLocation.objects.all()
+#     context={
+#         "object_list": queryset
 #     }
-#     #return HttpResponse("hello")
-#     return render(request, "home.html", context)   # {} = context in terms of dictionnary
-#
-# def about(request):
-#     context ={
-#
-#     }
-#     return render(request, "about.html", context)
-#
-# def contact(request):
-#     context = {
-#
-#     }
-#     return render(request, "contact.html", context)
-#
-class ContactView(View):
-    def get(self, request, *args, **kwargs):
-        print(kwargs)  #arguments passés dans l'url, qui ici vont se print dans la console
-        context = {}
-        return render(request, "contact.html", context)
+#     return render(request, template_name, context)
 
-class HomeView(TemplateView):
-    template_name = 'home.html'
+class interactivListview(ListView):
+    template_name = 'interactiv/interactiv_list.html'
 
-    def get_contetc_data(self, *args,**kwargs):
-        context = super(HomeView, self).get_context_data(*args, **kwargs)
-        print(context)
-        return context
+    def get_queryset(self):
+        slug = self.kwargs.get("slug")
+        if slug:
+            queryset = InteractivLocation.objects.filter(
+                Q(categorie__iexact=slug) |
+                Q(categorie__icontains=slug)
+            )
+        else:
+            queryset = InteractivLocation.objects.all()
 
-class AboutView(TemplateView):
-    template_name = 'about.html'
+        return queryset
 
-class ContactTemplateView(TemplateView):
-    template_name = 'contact.html'
+
+class interactivDetailView(DetailView):
+    template_name = 'interactiv/interactiv_detail.html'
+    queryset = InteractivLocation.objects.all()
+
+    # def get_context_data(self, *args, **kwargs):
+    #     print(self.kwargs)
+    #     context = super(interactivDetailView, self).get_context_data(*args, **kwargs)
+    #     print(context)
+    #     return context
+    #
+    # def get_object(self,*args, **kwargs):
+    #     rest_id = self.kwargs.get('rest_id')
+    #     obj = get_object_or_404(InteractivLocation, id= rest_id)
+    #     return obj

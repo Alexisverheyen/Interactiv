@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+        interactiv || {{ block.super }}
+{% endblock head_title %}
+
+{% block content %}
+<h1>Interactive List</h1>
+
+ <ul>
+ {% for obj in object_list %}
+     <li> <a href='/interactiv/{{obj.slug}}/'>{{ obj}} </a></li></br>
+     {{ obj.name }} {{ obj.location }} {{ obj.categorie }} {{ obj.timestamp }}
+     </li>
+ {% endfor %}
+ </ul>
+
+{% endblock content %}

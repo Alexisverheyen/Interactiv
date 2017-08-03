@@ -16,13 +16,20 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import TemplateView
-from interactiv.views import HomeView, ContactView
+# from interactiv.views import HomeView, ContactView
+from interactiv.views import (
+    interactivListview,
+    interactivDetailView
+)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', HomeView.as_view()),
+    url(r'^$', TemplateView.as_view(template_name='home.html')),
+    url(r'^interactiv/$', interactivListview.as_view()),
+    url(r'^interactiv/(?P<slug>[\w-]+)/$', interactivDetailView.as_view()),
+    #url(r'^interactiv/(?P<slug>\w+)/$', interactivListview.as_view()),
     url(r'^about/$', TemplateView.as_view(template_name='about.html')),
-    url(r'^contact/(?P<id>\d+)$', ContactView.as_view()),
+    # url(r'^contact/(?P<id>\d+)$', ContactView.as_view()),
     url(r'^contact/$', TemplateView.as_view(template_name='contact.html')),
 
 ]
