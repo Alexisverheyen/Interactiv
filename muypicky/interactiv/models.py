@@ -7,7 +7,7 @@ class InteractivLocation(models.Model):
     name        = models.CharField(max_length=120)
     location    = models.CharField(max_length=120, null=True, blank=True)
     categorie   = models.CharField(max_length=120, null=True, blank=False)
-    timestamp   = models.DateTimeField(auto_now=False, auto_now_add=False)
+    timestamp   = models.DateTimeField(auto_now=False, auto_now_add=True)
     slug        = models.SlugField(null=True, blank=True)                             #donner un identifiant clair qui se retrouvera dans l'url
 
     def __str__(self):

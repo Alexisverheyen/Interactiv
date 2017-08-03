@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
-from django.http import HttpResponse
-from .models import InteractivLocation
+from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import Q
+
+from .models import InteractivLocation
+from .forms import InteractivCreateForm, InteractivLocationCreateForm
 
 # def interactiv_listview(request):
 #     template_name='interactiv/interactiv_list.html'
@@ -12,6 +14,30 @@ from django.db.models import Q
 #         "object_list": queryset
 #     }
 #     return render(request, template_name, context)
+
+def interactiv_createview(request):
+    form = InteractivLocationCreateForm(request.POST or None)
+    print("etape 1")
+    errors = None
+    if form.is_valid():
+        form.save()
+        print("on va vous rediriger")
+        return HttpResponseRedirect("/interactiv/")
+    else:
+        print("le form n'est pas valide")
+    print("Etape 2")
+    if form.errors:
+        errors = form.errors
+
+    template_name = 'interactiv/form.html'
+    context ={
+        'form':form,
+        'errors': errors,
+    }
+    print("Etape 3")
+
+    return render(request, template_name, context)
+
 
 class interactivListview(ListView):
     template_name = 'interactiv/interactiv_list.html'
